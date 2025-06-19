@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我与上海的故事 - 上海图书馆历史资料平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'KaiTi', serif;
+            background: #5d462b;
+            color: #f7f5f3;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: url('https://www.transparenttextures.com/patterns/clean-gray-paper.png');
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            color: #efd294;
+        }
+        
+        
+        
+        /* 主页面样式 */
+        #main-page {
+            display: block;
+            position: relative;
+            height: calc(100vh - 100px);
+        }
+        
+        .page-title {
+            text-align: center;
+            margin: 20px 0 30px;
+            color: #f4f2eb;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 3px rgba(160, 160, 160, 0.043);
+        }
+        
+        .page-subtitle {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #f6f8f9;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+        
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            background: #fbedd2;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            overflow: hidden;
+            border: 1px solid #d4af37;
+            background-image: url('https://www.transparenttextures.com/patterns/dust.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+                              
+        
+        .shanghai-map {
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background:transparent;
+            border:none;
+            box-shadow: none;
+            border-radius: none;
+            display: flex;
+            align-items: center;
+            justify-content:flex-end;
+            flex-direction:column;
+            align-items: center;           
+            justify-content: flex-end;    
+            padding-bottom: 0.1px;  
+            background-image: url('上海.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            overflow:hidden;
+        }
+        
+        .shanghai-map:hover {
+            transform: translate(-50%, -50%) scale(1.05);
+            box-shadow: 0 0 0 12px rgba(26, 58, 95, 0.4);
+        }
+        
+        .shanghai-map h2 {
+            font-size: 1.8rem; 
+            color: #000; 
+            text-align: center;
+            background:none;
+            padding:-10px 0;
+            border-radius:0;
+
+        }
+        
+        .country-map {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+    
+            background: transparent;        
+            border: none;                  
+            box-shadow: none;              
+    
+            display: flex;                 
+            flex-direction: column;        
+            align-items: center;           
+            justify-content: flex-end;    
+            padding-bottom: 10px;          
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        
+        
+        .country-map:hover {
+            transform: scale(1.05);
+            box-shadow: none;
+            background-color:transparent;
+        }
+
+        .country-map.russia{
+            top: 3%;
+            right:40%;
+            left: auto;
+            background:none, url('俄罗斯1.png') center/cover;
+        }
+        
+        .country-map.usa {
+            top: 20%;
+            right: 5%;
+            left:auto;
+            background: none, url('美国1.png') center/cover;
+        }
+
+        .country-map.japan {
+            top: 50%;
+            right: 10%;
+            left:auto;
+            background: none, url('日本1.png') center/cover;
+        }
+
+        
+        .country-map.uk {
+            top: 10%;
+            left: 5%;
+            right:auto;
+            background: none, url('英国1.png') center/cover;
+        }
+        
+        .country-map.france {
+            top: 50%;
+            left: 10%;
+            right:auto;
+            background: none, url('法国1.png') center/cover;
+        }
+        
+        .country-map.germany {
+            top: 30%;
+            left: 20%;
+            right:auto;
+            background: none, url('德国1.png') center/cover;
+        }
+
+        .country-map span {
+            font-size: 1.1rem;
+            color: #000;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            padding-top: 10px; 
+        }
+        
+        .connection-line {
+            display: none;
+        }
+        
+        
+        #country-page {
+            display: none;
+            height: calc(100vh - 100px);
+        }
+        
+        .country-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            background: #1a3a5f;
+            color: white;
+            border-radius: 10px;
+        }
+        
+        .back-button {
+            background: #4a6b8f;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .back-button:hover {
+            background: #5a7b9f;
+        }
+        
+        .country-map-large {
+            height: 80%;
+            background: url('https://images.unsplash.com/photo-1507697364665-69eec30ea94a?ixlib=rb-4.0.3') center/cover;
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .location-marker {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 80, 80, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .location-marker:hover {
+            transform: translate(-50%, -50%) scale(1.2);
+            background: rgba(255, 50, 50, 1);
+        }
+        
+        .location-marker i {
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        /* 信件页面样式 */
+        #letter-page {
+            display: none;
+            background: #f9f5eb;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 900px;
+            margin: 30px auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            position: relative;
+            min-height: 80vh;
+        }
+        
+        .letter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .stamp-container {
+            width: 120px;
+            height: 150px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        
+        .stamp {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        
+        .stamp:hover {
+            transform: rotateY(180deg);
+        }
+        
+        .stamp-front, .stamp-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border: 2px solid #d4af37;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .stamp-front {
+            background: #f8f0d7;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .stamp-back {
+            background: white;
+            transform: rotateY(180deg);
+            padding: 10px;
+        }
+        
+        .stamp-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #1a3a5f;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .stamp-title {
+            font-size: 0.9rem;
+            text-align: center;
+            font-weight: bold;
+            color: #1a3a5f;
+        }
+        
+        .stamp-info {
+            font-size: 0.8rem;
+            color: #555;
+            line-height: 1.4;
+        }
+        
+        .close-letter {
+            background: #1a3a5f;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .close-letter:hover {
+            transform: rotate(90deg);
+            background: #2a4a6f;
+        }
+        
+        .letter-content {
+            background: url('https://www.transparenttextures.com/patterns/notebook.png');
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 30px;
+            border: 1px solid #e0d6c0;
+        }
+        
+        .letter-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1a3a5f;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 10px;
+        }
+        
+        .building-images {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .building-image {
+            flex: 1;
+            min-width: 250px;
+            height: 200px;
+            border-radius: 8px;
+            background: #ddd;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .contact-link {
+            display: block;
+            text-align: center;
+            background: #1a3a5f;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+        
+        .contact-link:hover {
+            background: #2a4a6f;
+        }
+        
+        /* 智能体聊天页面 */
+        #chatbot-page {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 900px;
+            margin: 30px auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            position: relative;
+            min-height: 70vh;
+        }
+        
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .chat-title {
+            font-size: 1.8rem;
+            color: #1a3a5f;
+        }
+        
+        .chat-container {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        
+        .message.bot {
+            background: #e3f2fd;
+            align-self: flex-start;
+            margin-right: auto;
+        }
+        
+        .message.user {
+            background: #dcedc8;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .chat-input button {
+            background: #1a3a5f;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        /* 集邮册页面 */
+        #stamp-album {
+            display: none;
+            background: #f9f5eb;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 1000px;
+            margin: 30px auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            position: relative;
+        }
+        
+        .album-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .album-title {
+            font-size: 2.2rem;
+            color: #1a3a5f;
+            margin-bottom: 10px;
+        }
+        
+        .stamps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        
+        .album-stamp {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        
+        .album-stamp:hover {
+            transform: translateY(-5px);
+        }
+        
+        .album-stamp-image {
+            width: 100px;
+            height: 100px;
+            background: #1a3a5f;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+        }
+        
+        .album-stamp-title {
+            font-weight: bold;
+            color: #1a3a5f;
+            margin-top: 5px;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .map-container {
+                height: 60vh;
+            }
+            
+            .shanghai-map {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .country-map {
+                width: 100px;
+                height: 100px;
+                font-size: 0.9rem;
+            }
+            
+            .country-map.russia {
+                top: 10%;
+                left: 10%;
+            }
+            .country-map.usa {
+                top: 10%;
+                left: 10%;
+            }
+            
+            .country-map.japan {
+                top: 10%;
+                left: 10%;
+            }
+
+            .country-map.uk {
+                top: 10%;
+                right: 10%;
+            }
+            
+            .country-map.france {
+                bottom: 10%;
+                left: 10%;
+            }
+            
+            .country-map.germany {
+                bottom: 10%;
+                right: 10%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 主页面 -->
+        <div id="main-page">
+            <h1 class="page-title">我与上海的故事</h1>
+            <p class="page-subtitle">上海图书馆历史资料收集项目，通过国际友人的信件讲述上海与世界各国的深厚历史渊源。点击下方国家地图，探索上海与世界各国的历史联系。</p>
+            
+            <div class="map-container">
+                <div class="shanghai-map">
+                    <h2>上海</h2>
+                </div>
+                
+                <!-- 国家地图 -->
+
+                <div class="country-map russia" onclick="openCountryPage('俄罗斯')">
+                    <span>俄罗斯</span>
+                </div>
+
+                <div class="country-map usa" onclick="openCountryPage('美国')">
+                    <span>美国</span>
+                </div>
+
+                <div class="country-map japan" onclick="openCountryPage('日本')">
+                    <span>日本</span>
+                </div>
+                
+                <div class="country-map uk" onclick="openCountryPage('英国')">
+                    <span>英国</span>
+                </div>
+                
+                <div class="country-map france" onclick="openCountryPage('法国')">
+                    <span>法国</span>
+                </div>
+                
+                <div class="country-map germany" onclick="openCountryPage('德国')">
+                    <span>德国</span>
+                </div>
+                
+                <!-- 连接线 -->
+                <div class="connection-line" id="line-russia"></div>
+                <div class="connection-line" id="line-usa"></div>
+                <div class="connection-line" id="line-japan"></div>
+                <div class="connection-line" id="line-uk"></div>
+                <div class="connection-line" id="line-france"></div>
+                <div class="connection-line" id="line-germany"></div>
+            </div>
+        </div>
+        
+        <!-- 国家聚焦页面 -->
+        <div id="country-page">
+            <div class="country-header">
+                <button class="back-button" onclick="goBackToMain()"><i class="fas fa-arrow-left"></i> 返回主地图</button>
+                <h2 id="country-name">国家名称</h2>
+            </div>
+            
+            <div class="country-map-large" id="shanghai-detail-map">
+                <!-- 标记点会通过JS动态添加 -->
+            </div>
+        </div>
+        
+        <!-- 信件页面 -->
+        <div id="letter-page">
+            <div class="letter-header">
+                <div class="stamp-container">
+                    <div class="stamp">
+                        <div class="stamp-front">
+                            <div class="stamp-image" id="stamp-icon">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <div class="stamp-title" id="stamp-title">建筑名称</div>
+                        </div>
+                        <div class="stamp-back">
+                            <div class="stamp-info">
+                                <p><strong>类别:</strong> <span id="stamp-category">饭店</span></p>
+                                <p><strong>国家:</strong> <span id="stamp-country">美国</span></p>
+                                <p><strong>年代:</strong> <span id="stamp-era">1920s</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="close-letter" onclick="goBackToCountry()"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <h2 class="letter-title" id="letter-title">华懋饭店的故事</h2>
+            
+            <div class="letter-content" id="letter-content">
+                <!-- 信件内容将通过JS动态添加 -->
+            </div>
+            
+            <div class="building-images">
+                <div class="building-image">建筑图片 1</div>
+                <div class="building-image">建筑图片 2</div>
+                <div class="building-image">建筑图片 3</div>
+            </div>
+            
+            <a href="#" class="contact-link" onclick="openChatbot()">探索该事件的历史意义 <i class="fas fa-arrow-right"></i></a>
+        </div>
+        
+        <!-- 智能体聊天页面 -->
+        <div id="chatbot-page">
+            <div class="chat-header">
+                <h2 class="chat-title">历史意义探索</h2>
+                <button class="close-letter" onclick="goBackToLetter()"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="chat-container" id="chat-container">
+                <div class="message bot">
+                    您好！我是上海历史资料智能助手。我可以帮助您分析当前历史事件的意义和影响。请问您想了解这个历史事件的哪些方面？
+                </div>
+            </div>
+            
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="请输入您的问题...">
+                <button onclick="sendMessage()">发送</button>
+            </div>
+        </div>
+        
+        <!-- 集邮册页面 -->
+        <div id="stamp-album">
+            <div class="album-header">
+                <h2 class="album-title">您的上海历史集邮册</h2>
+                <p>恭喜您完成了一个国家所有历史地点的探索！</p>
+            </div>
+            
+            <div class="stamps-grid" id="stamps-grid">
+                <!-- 邮票会通过JS动态添加 -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="back-button" onclick="goBackToMain()" style="padding: 10px 25px; font-size: 1.1rem;">
+                    <i class="fas fa-home"></i> 返回主页面
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 页面状态管理
+        let currentCountry = '';
+        let currentCategory = '';
+        
+        // 示例数据 - 在实际应用中可以从外部JSON加载
+        const countryData = {
+            "美国": {
+                locations: [
+                    { name: "华懋饭店", category: "饭店", top: "45%", left: "50%", 
+                      letter: {
+                        title: "华懋饭店：上海滩的传奇",
+                        content: "亲爱的历史资料收集者：<br><br>作为1920年代在上海工作的美国商人，我亲眼见证了华懋饭店（现和平饭店）的辉煌岁月。这座由维克多·沙逊爵士建造的酒店，是当时上海最豪华的场所，被誉为'远东第一楼'。<br><br>饭店的绿色铜顶是外滩最醒目的地标，内部的装饰融合了东西方元素。我依然记得在茉莉厅欣赏爵士乐表演的夜晚，那是上海最国际化的社交场所。各国商人、外交官和名流在此汇聚，是上海作为国际都市的象征。<br><br>即使在战争时期，华懋饭店也保持着它的尊严。如今，每当我看到它，就想起那个充满活力的时代。<br><br>真诚的，<br>罗伯特·詹森",
+                        stamp: { icon: "fa-hotel", title: "华懋饭店", category: "饭店", country: "美国", era: "1920s" }
+                      },
+                      images: ["历史照片1", "历史照片2", "历史照片3"]
+                    },
+                    { name: "圣约翰大学", category: "学校", top: "60%", left: "40%", 
+                      letter: {
+                        title: "圣约翰大学的记忆",
+                        content: "亲爱的历史收集者：<br><br>我在1930年代就读于上海的圣约翰大学，这所由美国圣公会创办的学校是当时中国最先进的高等学府之一。校园里中西合璧的建筑风格令人难忘，尤其是那座钟楼，至今仍是我心中上海的象征。<br><br>圣约翰采用全英文教学，课程设置先进，培养了许多中国近代史上的杰出人物。校园氛围自由开放，各种思想在此交流碰撞。我在这里不仅学到了知识，更形成了国际化的视野。<br><br>尽管学校已在1952年院系调整中不复存在，但其教育理念和精神仍在延续。圣约翰大学是中美教育交流的重要见证。<br><br>真诚的，<br>玛丽·汤普森",
+                        stamp: { icon: "fa-graduation-cap", title: "圣约翰大学", category: "学校", country: "美国", era: "1930s" }
+                      }
+                    }
+                ]
+            },
+            "英国": {
+                locations: [
+                    { name: "上海总会", category: "租界机构", top: "47%", left: "48%", 
+                      letter: {
+                        title: "上海总会的回忆",
+                        content: "尊敬的收集者：<br><br>作为前上海英租界行政官员，我曾在上海总会度过了许多重要时光。这座建于1864年的建筑是英国在上海的权力象征，拥有当时亚洲最长的吧台（34米）。<br><br>建筑采用文艺复兴风格，内部装饰奢华，尤其是那座著名的黑白大理石楼梯。这里不仅是社交场所，更是英国在远东的政治经济中心。许多影响上海历史的决策都在此讨论形成。<br><br>虽然时代变迁，但上海总会（现华尔道夫酒店）仍然是外滩建筑群中最具英伦风情的代表，见证了英国在上海的百年兴衰。<br><br>真诚的，<br>查尔斯·威尔逊",
+                        stamp: { icon: "fa-landmark", title: "上海总会", category: "租界机构", country: "英国", era: "1864" }
+                      }
+                    }
+                ]
+            }
+        };
+        
+        // 初始化连接线
+        function initConnectionLines() {
+            const shanghaiCenter = {x: 50, y: 50}; // 百分比坐标
+            
+            // 设置连接线位置
+            setLinePosition('line-russia', shanghaiCenter, {x: 25, y: 20});
+            setLinePosition('line-usa', shanghaiCenter, {x: 25, y: 50});
+            setLinePosition('line-japan', shanghaiCenter, {x: 25, y: 80});
+            setLinePosition('line-uk', shanghaiCenter, {x: 75, y: 20});
+            setLinePosition('line-france', shanghaiCenter, {x: 75, y: 50});
+            setLinePosition('line-germany', shanghaiCenter, {x: 75, y: 80});
+        }
+        
+        // 设置连接线位置
+        function setLinePosition(lineId, start, end) {
+            const line = document.getElementById(lineId);
+            const dx = end.x - start.x;
+            const dy = end.y - start.y;
+            const length = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+            
+            line.style.width = `${length}%`;
+            line.style.left = `${start.x}%`;
+            line.style.top = `${start.y}%`;
+            line.style.transform = `rotate(${angle}deg)`;
+        }
+        
+        // 打开国家页面
+        function openCountryPage(country) {
+            currentCountry = country;
+            document.getElementById('main-page').style.display = 'none';
+            document.getElementById('country-page').style.display = 'block';
+            document.getElementById('country-name').textContent = country + "与上海的历史联系";
+            
+            // 清除之前的标记点
+            const map = document.getElementById('shanghai-detail-map');
+            map.innerHTML = '';
+            
+            // 添加新的标记点
+            const locations = countryData[country].locations;
+            locations.forEach(location => {
+                const marker = document.createElement('div');
+                marker.className = 'location-marker';
+                marker.style.top = location.top;
+                marker.style.left = location.left;
+                marker.innerHTML = `<i class="fas fa-map-marker-alt"></i>`;
+                marker.title = location.name + " - " + location.category;
+                marker.onclick = () => openLetter(location);
+                
+                map.appendChild(marker);
+                
+                // 添加标记提示
+                const tooltip = document.createElement('div');
+                tooltip.className = 'marker-tooltip';
+                tooltip.textContent = location.name;
+                tooltip.style.top = `calc(${location.top} - 30px)`;
+                tooltip.style.left = location.left;
+                map.appendChild(tooltip);
+            });
+        }
+        
+        // 打开信件
+        function openLetter(location) {
+            document.getElementById('country-page').style.display = 'none';
+            document.getElementById('letter-page').style.display = 'block';
+            
+            // 设置信件内容
+            const letter = location.letter;
+            document.getElementById('letter-title').textContent = letter.title;
+            document.getElementById('letter-content').innerHTML = letter.content;
+            
+            // 设置邮票信息
+            const stamp = letter.stamp;
+            document.getElementById('stamp-icon').innerHTML = `<i class="fas ${stamp.icon}"></i>`;
+            document.getElementById('stamp-title').textContent = stamp.title;
+            document.getElementById('stamp-category').textContent = stamp.category;
+            document.getElementById('stamp-country').textContent = stamp.country;
+            document.getElementById('stamp-era').textContent = stamp.era;
+            
+            currentCategory = stamp.category;
+        }
+        
+        // 打开聊天机器人
+        function openChatbot() {
+            document.getElementById('letter-page').style.display = 'none';
+            document.getElementById('chatbot-page').style.display = 'block';
+            
+            // 清空聊天记录
+            document.getElementById('chat-container').innerHTML = `
+                <div class="message bot">
+                    您好！我是上海历史资料智能助手。我可以帮助您分析"${document.getElementById('letter-title').textContent}"的历史意义和影响。请问您想了解这个历史事件的哪些方面？
+                </div>
+            `;
+        }
+        
+        // 发送消息
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+            
+            if (message) {
+                // 添加用户消息
+                addMessage(message, 'user');
+                input.value = '';
+                
+                // 模拟机器人回复
+                setTimeout(() => {
+                    let response = '';
+                    
+                    if (message.includes('意义') || message.includes('重要性')) {
+                        response = `"${document.getElementById('letter-title').textContent}"是上海国际化历史的重要见证。它代表了${currentCountry}在上海的影响，体现了上海作为国际大都市的多元文化融合。这一历史建筑/事件是研究上海近现代史、中外文化交流史的重要实物资料。`;
+                    } else if (message.includes('建筑') || message.includes('设计')) {
+                        response = `该建筑体现了典型的${currentCountry}建筑风格，同时融合了上海本地元素。它是上海外滩历史建筑群的组成部分，展示了上海作为"万国建筑博览"的独特魅力。建筑细节如...（根据具体建筑添加细节）`;
+                    } else if (message.includes('现状') || message.includes('现在')) {
+                        response = `目前，该历史建筑已被列入上海市优秀历史建筑保护名录，经过精心修缮后作为...使用。它已成为上海重要的历史文化地标和旅游景点，继续讲述着上海的国际交往历史。`;
+                    } else {
+                        response = `关于"${document.getElementById('letter-title').textContent}"，它是${currentCountry}与上海交流历史的重要见证。这一历史事件/建筑不仅影响了当时的社会经济生活，也为今天的上海留下了珍贵的文化遗产。如需更详细信息，建议查阅上海图书馆的相关历史档案。`;
+                    }
+                    
+                    addMessage(response, 'bot');
+                }, 1000);
+            }
+        }
+        
+        // 添加消息到聊天框
+        function addMessage(text, sender) {
+            const container = document.getElementById('chat-container');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.textContent = text;
+            container.appendChild(messageDiv);
+            
+            // 滚动到底部
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        // 打开集邮册
+        function openStampAlbum() {
+            document.getElementById('country-page').style.display = 'none';
+            document.getElementById('stamp-album').style.display = 'block';
+            
+            // 添加邮票
+            const stampsGrid = document.getElementById('stamps-grid');
+            stampsGrid.innerHTML = '';
+            
+            const locations = countryData[currentCountry].locations;
+            locations.forEach(location => {
+                const stamp = location.letter.stamp;
+                const stampDiv = document.createElement('div');
+                stampDiv.className = 'album-stamp';
+                stampDiv.innerHTML = `
+                    <div class="album-stamp-image">
+                        <i class="fas ${stamp.icon}"></i>
+                    </div>
+                    <div class="album-stamp-title">${stamp.title}</div>
+                    <div>${stamp.category}</div>
+                `;
+                stampsGrid.appendChild(stampDiv);
+            });
+        }
+        
+        // 返回主页面
+        function goBackToMain() {
+            document.getElementById('main-page').style.display = 'block';
+            document.getElementById('country-page').style.display = 'none';
+            document.getElementById('letter-page').style.display = 'none';
+            document.getElementById('chatbot-page').style.display = 'none';
+            document.getElementById('stamp-album').style.display = 'none';
+        }
+        
+        // 返回国家页面
+        function goBackToCountry() {
+            document.getElementById('country-page').style.display = 'block';
+            document.getElementById('letter-page').style.display = 'none';
+            document.getElementById('chatbot-page').style.display = 'none';
+        }
+        
+        // 返回信件页面
+        function goBackToLetter() {
+            document.getElementById('letter-page').style.display = 'block';
+            document.getElementById('chatbot-page').style.display = 'none';
+        }
+        
+        // 初始化
+        window.onload = function() {
+            initConnectionLines();
+            
+            // 模拟数据加载
+            setTimeout(() => {
+                // 模拟完成所有地点访问
+                // openStampAlbum();
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
