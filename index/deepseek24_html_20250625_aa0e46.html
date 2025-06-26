@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我与上海的故事 - 上海图书馆历史资料平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'KaiTi', serif;
+            background: #5d462b;
+            color: #f7f5f3;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: url('https://www.transparenttextures.com/patterns/clean-gray-paper.png');
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            color: #e7ddc2;
+        }
+        
+        /* 主页面样式 */
+        #main-page {
+            display: block;
+            position: relative;
+            height: calc(100vh - 100px);
+        }
+        
+        .page-title {
+            text-align: center;
+            margin: 20px 0 30px;
+            color: #f4f2eb;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 3px rgba(160, 160, 160, 0.043);
+        }
+        
+        .page-subtitle {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #f6f8f9;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+        
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            background: #fbedd2;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            overflow: hidden;
+            border: 1px solid #d4af37;
+            background-image: url('https://www.transparenttextures.com/patterns/dust.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+                              
+        
+        .shanghai-map {
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background:transparent;
+            border:none;
+            box-shadow: none;
+            border-radius: none;
+            display: flex;
+            align-items: center;
+            justify-content:flex-end;
+            flex-direction:column;
+            align-items: center;           
+            justify-content: flex-end;    
+            padding-bottom: 0.1px;  
+            background-image: url("上海2.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            overflow:hidden;
+        }
+        
+        .shanghai-map:hover {
+            transform: translate(-50%, -50%) scale(1.05);
+            box-shadow: 0 0 0 12px rgba(26, 58, 95, 0.4);
+        }
+        
+        .shanghai-map h2 {
+            font-size: 1.8rem; 
+            color: #000; 
+            text-align: center;
+            background:none;
+            padding:-10px 0;
+            border-radius:0;
+        }
+        
+        .country-map {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: transparent;        
+            border: none;                  
+            box-shadow: none;              
+            display: flex;                 
+            flex-direction: column;        
+            align-items: center;           
+            justify-content: flex-end;    
+            padding-bottom: 10px;          
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .country-map:hover {
+            transform: scale(1.05);
+            box-shadow: none;
+            background-color:transparent;
+        }
+
+        .country-map.russia{
+            top: 3%;
+            right:40%;
+            left: auto;
+            background-image: url("俄罗斯1.png");
+        }
+        
+        .country-map.usa {
+            top: 20%;
+            right: 5%;
+            left:auto;
+            background-image: url("美国1.png");
+        }
+
+        .country-map.japan {
+            top: 50%;
+            right: 10%;
+            left:auto;
+            background-image: url("日本1.png");
+        }
+        
+        .country-map.uk {
+            top: 10%;
+            left: 5%;
+            right:auto;
+            background-image: url("英国1.png");
+        }
+        
+        .country-map.france {
+            top: 50%;
+            left: 10%;
+            right:auto;
+            background-image: url("法国1.png");
+        }
+        
+        .country-map.germany {
+            top: 30%;
+            left: 20%;
+            right:auto;
+            background-image: url("德国1.png");
+        }
+
+        .country-map span {
+            font-size: 1.1rem;
+            color: #000;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            padding-top: 10px; 
+        }
+        
+        .connection-line {
+            display: none;
+        }
+        
+        /* 国家聚焦页面 */
+        #country-page {
+            display: none;
+            height: calc(100vh - 100px);
+        }
+        
+        .country-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            background: #1a3a5f;
+            color: white;
+            border-radius: 10px;
+        }
+        
+        .back-button {
+            background: #4a6b8f;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .back-button:hover {
+            background: #5a7b9f;
+        }
+        
+        .side-container{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+            padding: 20px;
+        }
+        
+        .side-container.left {
+            left: 0;
+        }
+
+        .side-container.right {
+            right: 0;
+        }
+
+        .image-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .image-item {
+            margin-bottom: 25px;
+            text-align: center;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .image-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .image-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+        .image-item img:hover {
+            transform: scale(1.05);
+        }
+
+        .image-caption {
+            margin-top: 10px;
+            color: #160c02;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .country-map-large {
+            height: 80%;
+            background: #ebdbbb;
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        
+        .shanghai-map-zoom {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            height: 90%;
+            background-image: url("上海2.png");
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 10px;
+            z-index: 1;
+        }
+        
+        .location-marker {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            z-index: 5;
+            border: 2px solid #d4af37;
+            padding: 5px;
+        }
+        
+        .location-marker:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
+        }
+        
+        .location-marker img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+        
+        .marker-title {
+            font-size: 0.7rem;
+            color: #1a3a5f;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 3px;
+            white-space: nowrap;
+        }
+        
+        .dynamic-circles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        /* 信件页面样式 */
+        #letter-page {
+            display: none;
+            background: #917b51;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 900px;
+            margin: 30px auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            position: relative;
+            min-height: 80vh;
+            background-image: url("https://www.transparenttextures.com/patterns/mocha-grunge.png");
+            background-size: 300px 300px;
+        }
+
+        .envelope-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .envelope {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            perspective: 1000px;
+        }
+        
+        .envelope-body {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url("https://www.transparenttextures.com/patterns/green-cup.png");
+            background-color: #807259;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 50% 100%, 0% 85%);
+            z-index: 1;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            /* 加强分割线样式，使用更明显的颜色和宽度 */
+            border-bottom: 5px solid #5d462b; /* 深棕色分割线 */
+        }
+
+        .envelope-flap {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url("https://www.transparenttextures.com/patterns/green-cup.png");
+            background-color: #807259;
+            clip-path: polygon(0% 0%, 100% 0%, 50% 50%);
+            transform-origin: top;
+            z-index: 2;
+            transition: transform 0.8s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            /* 修改封口底部边框，使其与主体边框匹配 */
+            border-bottom: 5px solid #5d462b; /* 深棕色分割线 */
+        }
+
+        /* 添加分割线强调样式 */
+        .envelope-separator {
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            background-color: #5d462b; /* 深棕色 */
+            z-index: 3;
+        }
+        
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+        }
+        
+        .letter-inside {
+            position: absolute;
+            width: 95%;
+            height: 90%;
+            background: url("https://www.transparenttextures.com/patterns/mocha-grunge.png");
+            top: 5%;
+            left: 2.5%;
+            z-index: 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: #5d462b;
+            font-weight: bold;
+            background-size: cover;
+        }
+        
+        .envelope.open .letter-inside {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .letter-content-container {
+            display: none;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+        
+        .letter-content-container.reveal {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        
+        .letter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .stamp-container {
+            width: 120px;
+            height: 150px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        
+        .stamp {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        
+        .stamp:hover {
+            transform: rotateY(180deg);
+        }
+        
+        .stamp-front, .stamp-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border: 2px solid #d4af37;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .stamp-front {
+            background: #f0ede4;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .stamp-back {
+            background: #e8e6dd;
+            transform: rotateY(180deg);
+            padding: 10px;
+        }
+        
+        .stamp-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #1a3a5f;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .stamp-title {
+            font-size: 0.9rem;
+            text-align: center;
+            font-weight: bold;
+            color: #1a3a5f;
+        }
+        
+        .stamp-info {
+            font-size: 0.8rem;
+            color: #555;
+            line-height: 1.4;
+        }
+        
+        .close-letter {
+            background: #1a3a5f;
+            color: rgb(222, 214, 141);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .close-letter:hover {
+            transform: rotate(90deg);
+            background: #2a4a6f;
+        }
+        
+        .letter-content {
+            background: url('https://www.transparenttextures.com/patterns/mocha-grunge.png');
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 30px;
+            border: 1px solid #e6dcc6;
+            position: relative;
+        }
+
+        .letter-content::before,
+        .letter-content::after {
+            content: '';
+            position: absolute;
+            height: 100%;
+            width: 2px;
+            top: 0;
+            background-image: linear-gradient(to bottom, transparent, #8B4513, transparent);
+        }
+        
+        .letter-content::before {
+            left: 15px;
+        }
+        
+        .letter-content::after {
+            right: 15px;
+        }
+        
+        .letter-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1a3a5f;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 10px;
+        }
+        
+        .building-images {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .building-image {
+            flex: 1;
+            min-width: 250px;
+            height: 200px;
+            border-radius: 8px;
+            background: #ddd;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .contact-link {
+            display: block;
+            text-align: center;
+            background: #1a3a5f;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+        
+        .contact-link:hover {
+            background: #2a4a6f;
+        }
+
+        #chatbot-page {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 900px;
+            margin: 30px auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            position: relative;
+            min-height: 70vh;
+        }
+        
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .chat-title {
+            font-size: 1.8rem;
+            color: #1a3a5f;
+        }
+        
+        .chat-container {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        
+        .message.bot {
+            background: #e3f2fd;
+            align-self: flex-start;
+            margin-right: auto;
+        }
+        
+        .message.user {
+            background: #dcedc8;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .chat-input button {
+            background: #1a3a5f;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .back-to-map {
+            background: #4a6b8f;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            transition: background 0.3s;
+        }
+        
+        .back-to-map:hover {
+            background: #5a7b9f;
+        }
+
+
+        #stamp-album {
+            display: none;
+            background: #f9f5eb;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 1000px;
+            margin: 30px auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            position: relative;
+        }
+        
+        .album-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .album-title {
+            font-size: 2.2rem;
+            color: #1a3a5f;
+            margin-bottom: 10px;
+        }
+        
+        .stamps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        
+        .album-stamp {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        
+        .album-stamp:hover {
+            transform: translateY(-5px);
+        }
+        
+        .album-stamp-image {
+            width: 100px;
+            height: 100px;
+            background: #1a3a5f;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+        }
+        
+        .album-stamp-title {
+            font-weight: bold;
+            color: #1a3a5f;
+            margin-top: 5px;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .map-container {
+                height: 60vh;
+            }
+            
+            .shanghai-map {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .country-map {
+                width: 100px;
+                height: 100px;
+                font-size: 0.9rem;
+            }
+            
+            .country-map.russia {
+                top: 10%;
+                left: 10%;
+            }
+            .country-map.usa {
+                top: 10%;
+                left: 10%;
+            }
+            
+            .country-map.japan {
+                top: 10%;
+                left: 10%;
+            }
+
+            .country-map.uk {
+                top: 10%;
+                right: 10%;
+            }
+            
+            .country-map.france {
+                bottom: 10%;
+                left: 10%;
+            }
+            
+            .country-map.germany {
+                bottom: 10%;
+                right: 10%;
+            }
+            .shanghai-map-zoom{
+                width:80%;
+                height:80%;
+            }
+            
+            .side-container {
+                width: 150px;
+                padding: 10px;
+            }
+            
+            .image-item {
+                margin-bottom: 15px;
+            }
+            
+            .image-item img {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .image-caption {
+                font-size: 0.8rem;
+            }
+            
+            .location-marker {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .location-marker img {
+                width: 25px;
+                height: 25px;
+            }
+            
+            .marker-title {
+                font-size: 0.6rem;
+            }
+
+            .envelope {
+                width: 250px;
+                height: 170px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 信封动画容器 -->
+        <div class="envelope-container" id="envelope-container">
+            <div class="envelope" id="envelope">
+                <div class="envelope-body"></div>
+                <!-- 添加分割线元素 -->
+                <div class="envelope-separator" style="top: 85%;"></div>
+                <div class="envelope-flap"></div>
+                <div class="letter-inside">历史信件</div>
+            </div>
+        </div>
+        <!-- 主页面 -->
+        <div id="main-page">
+            <h1 class="page-title">我与上海的故事</h1>
+            <p class="page-subtitle">上海图书馆历史资料收集项目，通过国际友人的信件讲述上海与世界各国的深厚历史渊源。点击下方国家地图，探索上海与世界各国的历史联系。</p>
+            
+            <div class="map-container">
+                <div class="shanghai-map">
+                    <h2>上海</h2>
+                </div>
+                
+                <!-- 国家地图 -->
+                <div class="country-map russia" onclick="openCountryPage('俄罗斯')">
+                    <span>俄罗斯</span>
+                </div>
+
+                <div class="country-map usa" onclick="openCountryPage('美国')">
+                    <span>美国</span>
+                </div>
+
+                <div class="country-map japan" onclick="openCountryPage('日本')">
+                    <span>日本</span>
+                </div>
+                
+                <div class="country-map uk" onclick="openCountryPage('英国')">
+                    <span>英国</span>
+                </div>
+                
+                <div class="country-map france" onclick="openCountryPage('法国')">
+                    <span>法国</span>
+                </div>
+                
+                <div class="country-map germany" onclick="openCountryPage('德国')">
+                    <span>德国</span>
+                </div>
+                
+                <!-- 连接线 -->
+                <div class="connection-line" id="line-russia"></div>
+                <div class="connection-line" id="line-usa"></div>
+                <div class="connection-line" id="line-japan"></div>
+                <div class="connection-line" id="line-uk"></div>
+                <div class="connection-line" id="line-france"></div>
+                <div class="connection-line" id="line-germany"></div>
+            </div>
+        </div>
+        
+        <!-- 国家聚焦页面 -->
+        <div id="country-page">
+            <div class="country-header">
+                <button class="back-button" onclick="goBackToMain()"><i class="fas fa-arrow-left"></i> 返回主地图</button>
+                <h2 id="country-name">俄罗斯与上海的历史联系</h2>
+            </div>
+            
+            <div class="country-map-large" id="shanghai-detail-map">
+                <div class="shanghai-map-zoom"></div>
+                <div class="dynamic-circles" id="dynamic-circles"></div>
+            </div>
+        </div>
+        
+        <!-- 信件页面 -->
+        <div id="letter-page">
+            <div class="letter-content-container">
+                <div class="letter-header">
+                    <div class="stamp-container">
+                        <div class="stamp">
+                            <div class="stamp-front">
+                                <div class="stamp-image" id="stamp-icon">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <div class="stamp-title" id="stamp-title">建筑名称</div>
+                            </div>
+                            <div class="stamp-back">
+                                <div class="stamp-info">
+                                    <p><strong>类别:</strong> <span id="stamp-category">无</span></p>
+                                    <p><strong>国家:</strong> <span id="stamp-country">无</span></p>
+                                    <p><strong>年代:</strong> <span id="stamp-era">无</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="close-letter" onclick="goBackToCountry()"><i class="fas fa-times"></i></button>
+                </div>
+                
+                <h2 class="letter-title" id="letter-title">俄罗斯驻上海领事馆的历史故事</h2>
+                
+                <div class="letter-content" id="letter-content">
+                <p>亲爱的朋友：</p>
+                <p>我怀着极大的兴趣向您讲述俄罗斯与上海之间的历史联系。1860年，俄罗斯帝国在上海设立了领事馆，这标志着两国正式外交关系的开始。最初的领事馆位于黄浦路，后来迁至外滩。</p>
+                <p>19世纪末，随着俄罗斯商人的到来，上海出现了俄罗斯社区。他们主要经营茶叶、皮毛和纺织品贸易。俄罗斯商人伊万·斯米尔诺夫在南京路开设了第一家俄罗斯商店，销售传统的俄罗斯工艺品和食品。</p>
+                <p>1917年俄国革命后，大批俄罗斯难民来到上海。到1920年代中期，上海已有约5000名俄罗斯侨民。他们在法租界建立了自己的社区，创办了俄罗斯学校、东正教堂和俄语报纸。</p>
+                <p>俄罗斯文化对上海的影响尤其体现在建筑领域。1930年建成的圣尼古拉斯教堂是上海最美丽的东正教堂之一，其拜占庭风格的圆顶成为城市天际线的独特风景。</p>
+                <p>1949年后，大多数俄罗斯侨民离开了上海，但他们的文化遗产仍然存在。今天，俄罗斯领事馆继续促进着中俄两国的友好关系。</p>
+                <p>期待与您在上海相见，共同探索这些历史遗迹。</p>
+                <p>真诚的，<br>伊万·彼得罗夫</p>
+            </div>
+            
+            <div class="building-images">
+                <div class="building-image" style="background-image: url();"></div>
+                <div class="building-image" style="background-image: url();"></div>
+            </div>
+            
+            <button class="back-to-map" onclick="goBackToCountry()"><i class="fas fa-map-marked-alt"></i> 返回上海地图</button>
+        </div>
+    </div>
+
+    <script>
+        // 页面状态管理
+        let currentCountry = '';
+        let currentMarkers = [];
+        
+        // 存储每个类别对应的图片URL
+        const categoryImages = {
+            "报刊": "报纸.png",
+            "剧院": "剧院.png",
+            "电影": "电影.png",
+            "美术": "美术.png",
+            "华侨": "华侨.png",
+            "租界机构": "租界机构.png",
+            "医院": "医院.png",
+            "宗教": "教堂.png",
+            "学校": "学校.png",
+            "饭店": "饭店.png",
+            "公司": "公司.png"
+        };
+        
+        const countryData = {
+            "美国": {
+                locations: {
+                    "报刊": [
+                        { top: "40%", left: "45%", title: "美国报社旧址", letter: generateLetter("美国报社", "报刊") }
+                    ],
+                    "剧院": [
+                        { top: "35%", left: "50%", title: "美国大剧院", letter: generateLetter("美国大剧院", "剧院") }
+                    ],
+                    "电影": [
+                        { top: "60%", left: "55%", title: "美国电影院", letter: generateLetter("美国电影院", "电影") }
+                    ],
+                    "美术": [
+                        { top: "55%", left: "40%", title: "美国美术馆", letter: generateLetter("美国美术馆", "美术") }
+                    ],
+                    "华侨": [
+                        { top: "50%", left: "45%", title: "美国侨民社区", letter: generateLetter("美国侨民社区", "华侨") }
+                    ],
+                    "租界机构": [
+                        { top: "30%", left: "40%", title: "美国领事馆", letter: generateLetter("美国领事馆", "租界机构") }
+                    ],
+                    "医院": [
+                        { top: "65%", left: "50%", title: "美国医院", letter: generateLetter("美国医院", "医院") }
+                    ],
+                    "宗教": [
+                        { top: "45%", left: "35%", title: "圣约翰教堂", letter: generateLetter("圣约翰教堂", "宗教") }
+                    ],
+                    "学校": [
+                        { top: "70%", left: "45%", title: "美国学校", letter: generateLetter("美国学校", "学校") }
+                    ],
+                    "饭店": [
+                        { top: "60%", left: "40%", title: "美国餐厅", letter: generateLetter("美国餐厅", "饭店") }
+                    ],
+                    "公司": [
+                        { top: "35%", left: "55%", title: "美国贸易公司", letter: generateLetter("美国贸易公司", "公司") }
+                    ]
+                },
+                leftImages:[
+                    { src: "报纸.png", caption: "报刊" },
+                    { src: "剧院.png", caption: "剧院" },
+                    { src: "电影.png", caption: "电影" },
+                    { src: "美术.png", caption: "美术" },
+                    { src: "华侨.png", caption: "华侨" },
+                ],
+                rightImages:[
+                    { src: "租界机构.png", caption: "租界机构" },
+                    { src: "医院.png", caption: "医院" },
+                    { src: "教堂.png", caption: "宗教" },
+                    { src: "学校.png", caption: "学校" },
+                    { src: "饭店.png", caption: "饭店" },
+                    { src: "公司.png", caption: "公司" },
+                ]
+            },
+            "英国": {
+                locations: {
+                    "报刊": [
+                        { top: "40%", left: "45%", title: "英国报社旧址", letter: generateLetter("英国报社", "报刊") }
+                    ],
+                    "剧院": [
+                        { top: "35%", left: "50%", title: "英国大剧院", letter: generateLetter("英国大剧院", "剧院") }
+                    ],
+                    "电影": [
+                        { top: "60%", left: "55%", title: "英国电影院", letter: generateLetter("英国电影院", "电影") }
+                    ],
+                    "美术": [
+                        { top: "55%", left: "40%", title: "英国美术馆", letter: generateLetter("英国美术馆", "美术") }
+                    ],
+                    "华侨": [
+                        { top: "50%", left: "45%", title: "英国侨民社区", letter: generateLetter("英国侨民社区", "华侨") }
+                    ],
+                    "租界机构": [
+                        { top: "30%", left: "40%", title: "英国领事馆", letter: generateLetter("英国领事馆", "租界机构") }
+                    ],
+                    "医院": [
+                        { top: "65%", left: "50%", title: "英国医院", letter: generateLetter("英国医院", "医院") }
+                    ],
+                    "宗教": [
+                        { top: "45%", left: "35%", title: "圣三一教堂", letter: generateLetter("圣三一教堂", "宗教") }
+                    ],
+                    "学校": [
+                        { top: "70%", left: "45%", title: "英国学校", letter: generateLetter("英国学校", "学校") }
+                    ],
+                    "饭店": [
+                        { top: "60%", left: "40%", title: "英国餐厅", letter: generateLetter("英国餐厅", "饭店") }
+                    ],
+                    "公司": [
+                        { top: "35%", left: "55%", title: "英国贸易公司", letter: generateLetter("英国贸易公司", "公司") }
+                    ]
+                },
+                leftImages:[
+                    { src: "报纸.png", caption: "报刊" },
+                    { src: "剧院.png", caption: "剧院" },
+                    { src: "电影.png", caption: "电影" },
+                    { src: "美术.png", caption: "美术" },
+                    { src: "华侨.png", caption: "华侨" },
+                ],
+                rightImages:[
+                    { src: "租界机构.png", caption: "租界机构" },
+                    { src: "医院.png", caption: "医院" },
+                    { src: "教堂.png", caption: "宗教" },
+                    { src: "学校.png", caption: "学校" },
+                    { src: "饭店.png", caption: "饭店" },
+                    { src: "公司.png", caption: "公司" },
+                ]
+            },
+            "法国":{
+                locations: {
+                    "报刊": [
+                        { top: "40%", left: "45%", title: "法国报社旧址", letter: generateLetter("法国报社", "报刊") }
+                    ],
+                    "剧院": [
+                        { top: "35%", left: "50%", title: "法国大剧院", letter: generateLetter("法国大剧院", "剧院") }
+                    ],
+                    "电影": [
+                        { top: "60%", left: "55%", title: "法国电影院", letter: generateLetter("法国电影院", "电影") }
+                    ],
+                    "美术": [
+                        { top: "55%", left: "40%", title: "法国美术馆", letter: generateLetter("法国美术馆", "美术") }
+                    ],
+                    "华侨": [
+                        { top: "50%", left: "45%", title: "法国侨民社区", letter: generateLetter("法国侨民社区", "华侨") }
+                    ],
+                    "租界机构": [
+                        { top: "30%", left: "40%", title: "法国领事馆", letter: generateLetter("法国领事馆", "租界机构") }
+                    ],
+                    "医院": [
+                        { top: "65%", left: "50%", title: "法国医院", letter: generateLetter("法国医院", "医院") }
+                    ],
+                    "宗教": [
+                        { top: "45%", left: "35%", title: "圣母院", letter: generateLetter("圣母院", "宗教") }
+                    ],
+                    "学校": [
+                        { top: "70%", left: "45%", title: "法国学校", letter: generateLetter("法国学校", "学校") }
+                    ],
+                    "饭店": [
+                        { top: "60%", left: "40%", title: "法国餐厅", letter: generateLetter("法国餐厅", "饭店") }
+                    ],
+                    "公司": [
+                        { top: "35%", left: "55%", title: "法国贸易公司", letter: generateLetter("法国贸易公司", "公司") }
+                    ]
+                },
+                leftImages:[
+                    { src: "报纸.png", caption: "报刊" },
+                    { src: "剧院.png", caption: "剧院" },
+                    { src: "电影.png", caption: "电影" },
+                    { src: "美术.png", caption: "美术" },
+                    { src: "华侨.png", caption: "华侨" },
+                ],
+                rightImages:[
+                    { src: "租界机构.png", caption: "租界机构" },
+                    { src: "医院.png", caption: "医院" },
+                    { src: "教堂.png", caption: "宗教" },
+                    { src: "学校.png", caption: "学校" },
+                    { src: "饭店.png", caption: "饭店" },
+                    { src: "公司.png", caption: "公司" },
+                ]
+            },
+            "德国":{
+                locations: {
+                    "报刊": [
+                        { top: "40%", left: "45%", title: "德国报社旧址", letter: generateLetter("德国报社", "报刊") }
+                    ],
+                    "剧院": [
+                        { top: "35%", left: "50%", title: "德国大剧院", letter: generateLetter("德国大剧院", "剧院") }
+                    ],
+                    "电影": [
+                        { top: "60%", left: "55%", title: "德国电影院", letter: generateLetter("德国电影院", "电影") }
+                    ],
+                    "美术": [
+                        { top: "55%", left: "40%", title: "德国美术馆", letter: generateLetter("德国美术馆", "美术") }
+                    ],
+                    "华侨": [
+                        { top: "50%", left: "45%", title: "德国侨民社区", letter: generateLetter("德国侨民社区", "华侨") }
+                    ],
+                    "租界机构": [
+                        { top: "30%", left: "40%", title: "德国领事馆", letter: generateLetter("德国领事馆", "租界机构") }
+                    ],
+                    "医院": [
+                        { top: "65%", left: "50%", title: "德国医院", letter: generateLetter("德国医院", "医院") }
+                    ],
+                    "宗教": [
+                        { top: "45%", left: "35%", title: "圣约瑟教堂", letter: generateLetter("圣约瑟教堂", "宗教") }
+                    ],
+                    "学校": [
+                        { top: "70%", left: "45%", title: "德国学校", letter: generateLetter("德国学校", "学校") }
+                    ],
+                    "饭店": [
+                        { top: "60%", left: "40%", title: "德国餐厅", letter: generateLetter("德国餐厅", "饭店") }
+                    ],
+                    "公司": [
+                        { top: "35%", left: "55%", title: "德国贸易公司", letter: generateLetter("德国贸易公司", "公司") }
+                    ]
+                },
+                leftImages:[
+                    { src: "报纸.png", caption: "报刊" },
+                    { src: "剧院.png", caption: "剧院" },
+                    { src: "电影.png", caption: "电影" },
+                    { src: "美术.png", caption: "美术" },
+                    { src: "华侨.png", caption: "华侨" },
+                ],
+                rightImages:[
+                    { src: "租界机构.png", caption: "租界机构" },
+                    { src: "医院.png", caption: "医院" },
+                    { src: "教堂.png", caption: "宗教" },
+                    { src: "学校.png", caption: "学校" },
+                    { src: "饭店.png", caption: "饭店" },
+                    { src: "公司.png", caption: "公司" },
+                ]
+            },
+            "日本":{
+                locations: {
+                    "报刊": [
+                        { top: "40%", left: "45%", title: "日本报社旧址", letter: generateLetter("日本报社", "报刊") }
+                    ],
+                    "剧院": [
+                        { top: "35%", left: "50%", title: "日本大剧院", letter: generateLetter("日本大剧院", "剧院") }
+                    ],
+                    "电影": [
+                        { top: "60%", left: "55%", title: "日本电影院", letter: generateLetter("日本电影院", "电影") }
+                    ],
+                    "美术": [
+                        { top: "55%", left: "40%", title: "日本美术馆", letter: generateLetter("日本美术馆", "美术") }
+                    ],
+                    "华侨": [
+                        { top: "50%", left: "45%", title: "日本侨民社区", letter: generateLetter("日本侨民社区", "华侨") }
+                    ],
+                    "租界机构": [
+                        { top: "30%", left: "40%", title: "日本领事馆", letter: generateLetter("日本领事馆", "租界机构") }
+                    ],
+                    "医院": [
+                        { top: "65%", left: "50%", title: "日本医院", letter: generateLetter("日本医院", "医院") }
+                    ],
+                    "宗教": [
+                        { top: "45%", left: "35%", title: "东本愿寺", letter: generateLetter("东本愿寺", "宗教") }
+                    ],
+                    "学校": [
+                        { top: "70%", left: "45%", title: "日本学校", letter: generateLetter("日本学校", "学校") }
+                    ],
+                    "饭店": [
+                        { top: "60%", left: "40%", title: "日本餐厅", letter: generateLetter("日本餐厅", "饭店") }
+                    ],
+                    "公司": [
+                        { top: "35%", left: "55%", title: "日本贸易公司", letter: generateLetter("日本贸易公司", "公司") }
+                    ]
+                },
+                leftImages:[
+                    { src: "报纸.png", caption: "报刊" },
+                    { src: "剧院.png", caption: "剧院" },
+                    { src: "电影.png", caption: "电影" },
+                    { src: "美术.png", caption: "美术" },
+                    { src: "华侨.png", caption: "华侨" },
+                ],
+                rightImages:[
+                    { src: "租界机构.png", caption: "租界机构" },
+                    { src: "医院.png", caption: "医院" },
+                    { src: "教堂.png", caption: "宗教" },
+                    { src: "学校.png", caption: "学校" },
+                    { src: "饭店.png", caption: "饭店" },
+                    { src: "公司.png", caption: "公司" },
+                ]
+            },
+            "俄罗斯":{
+                locations: {
+                    "报刊": [
+                        { top: "40%", left: "45%", title: "俄罗斯报社旧址", letter: generateLetter("俄罗斯报社", "报刊") }
+                    ],
+                    "剧院": [
+                        { top: "35%", left: "50%", title: "俄罗斯大剧院", letter: generateLetter("俄罗斯大剧院", "剧院") }
+                    ],
+                    "电影": [
+                        { top: "60%", left: "55%", title: "俄罗斯电影院", letter: generateLetter("俄罗斯电影院", "电影") }
+                    ],
+                    "美术": [
+                        { top: "55%", left: "40%", title: "俄罗斯美术馆", letter: generateLetter("俄罗斯美术馆", "美术") }
+                    ],
+                    "华侨": [
+                        { top: "50%", left: "45%", title: "俄罗斯侨民社区", letter: generateLetter("俄罗斯侨民社区", "华侨") }
+                    ],
+                    "租界机构": [
+                        { top: "30%", left: "40%", title: "俄罗斯领事馆", letter: generateLetter("俄罗斯领事馆", "租界机构") }
+                    ],
+                    "医院": [
+                        { top: "65%", left: "50%", title: "俄罗斯医院", letter: generateLetter("俄罗斯医院", "医院") }
+                    ],
+                    "宗教": [
+                        { top: "45%", left: "35%", title: "圣尼古拉斯教堂", letter: generateLetter("圣尼古拉斯教堂", "宗教") }
+                    ],
+                    "学校": [
+                        { top: "70%", left: "45%", title: "俄罗斯学校", letter: generateLetter("俄罗斯学校", "学校") }
+                    ],
+                    "饭店": [
+                        { top: "60%", left: "40%", title: "俄罗斯餐厅", letter: generateLetter("俄罗斯餐厅", "饭店") }
+                    ],
+                    "公司": [
+                        { top: "35%", left: "55%", title: "俄罗斯贸易公司", letter: generateLetter("俄罗斯贸易公司", "公司") }
+                    ]
+                },
+                leftImages:[
+                    { src: "报纸.png", caption: "报刊" },
+                    { src: "剧院.png", caption: "剧院" },
+                    { src: "电影.png", caption: "电影" },
+                    { src: "美术.png", caption: "美术" },
+                    { src: "华侨.png", caption: "华侨" },
+                ],
+                rightImages:[
+                    { src: "租界机构.png", caption: "租界机构" },
+                    { src: "医院.png", caption: "医院" },
+                    { src: "教堂.png", caption: "宗教" },
+                    { src: "学校.png", caption: "学校" },
+                    { src: "饭店.png", caption: "饭店" },
+                    { src: "公司.png", caption: "公司" },
+                ],
+            }
+        }             
+        
+        // 生成信件内容
+        function generateLetter(title, category) {
+            const descriptions = {
+                "报刊": `愚兄如晤：
+
+顷于旧报堆中得见廿四年四月《中华月报》，甘涛君《世界舞蹈界底鸟瞰》一文殊有意趣，特摘要奉闻。
+
+文中首叙德意志拉班、魏格曼辈发起新舞运动，破古典藩篱。俄之佳吉列夫舞团诸星如尼金斯基、巴甫洛娃辈，其《牧神午后》剧照刊于报侧，虽黑白而姿影欲活。美地韩芙丽、格雷姆创 "收缩 - 放松" 术，《边疆》一舞写拓荒魂灵，报端评曰 "足与西部民谣相和"。
+
+尤妙在报中兼及民俗舞，谓爱尔兰踢踏、西班牙弗拉明戈如爵士鼓点，又将德舞肢体论与昆曲身段并提，真乃通人见识。末及沪上俄侨跳《吉赛尔》，窗下正过桂花糖粥担，读之莞尔。
+
+该报 "文艺世界之窗" 栏固多佳品，此篇于舞界革故鼎新之事，述之精当。惜乎篇幅短窄，未能尽览全豹，然廿年前欧陆舞潮，藉此报铅字已得窥一二。闲时可至四马路书肆一访，或能得见原刊，当知吾言不谬也。
+
+即请
+春祺
+
+弟 [名] 顿首
+[日期]`,
+                "剧院": `俄罗斯大剧院建于1925年，是上海俄侨的文化中心。这里上演了众多俄罗斯经典剧目，如《天鹅湖》和《叶甫盖尼·奥涅金》，丰富了上海的文化生活。`,
+                "电影": `俄罗斯电影院于1930年开业，播放俄罗斯电影和欧洲艺术电影。它成为上海知识分子和艺术爱好者的聚集地，推动了上海电影艺术的发展。`,
+                "美术": `俄罗斯美术馆由著名画家伊利亚·列宾的学生于1928年创立。这里展示了俄罗斯艺术家的作品，并举办艺术课程，培养了许多中国艺术家。`,
+                "华侨": `俄罗斯侨民社区位于法租界，形成于1920年代。社区内有俄罗斯商店、面包房和咖啡馆，保留了俄罗斯传统生活方式和文化。`,
+                "租界机构": `俄罗斯领事馆始建于1860年，是俄罗斯在上海的外交代表机构。它见证了中俄关系的发展，保护了俄罗斯侨民的利益。`,
+                "医院": `俄罗斯医院由俄罗斯医生于1915年建立，为俄罗斯侨民提供医疗服务。医院设备先进，吸引了众多上海居民前来就诊。`,
+                "宗教": `圣尼古拉斯教堂建于1932年，是上海最美丽的东正教堂。其拜占庭风格的建筑成为上海的地标之一，至今仍是宗教活动的场所。`,
+                "学校": `俄罗斯学校创建于1924年，为俄罗斯侨民子女提供教育。学校教授俄语、文学和历史，保留了俄罗斯的文化传统。`,
+                "饭店": `俄罗斯餐厅"卡秋莎"开业于1935年，提供正宗俄式菜肴。其招牌菜罗宋汤和肉饼深受上海居民喜爱，成为文化交流的场所。`,
+                "公司": `俄罗斯贸易公司成立于1890年，主要从事茶叶、皮毛和纺织品的贸易。公司促进了中俄商业往来，为上海经济发展做出了贡献。`
+            };
+            
+            return {
+                title: title,
+                content: descriptions[category],
+                stamp: {
+                    icon: "fa-building",
+                    title: title,
+                    category: category,
+                    country: "俄罗斯",
+                    era: "19-20世纪"
+                }
+            };
+        }
+        
+        // 打开国家页面
+        function openCountryPage(country) {
+            currentCountry = country;
+            document.getElementById('main-page').style.display = 'none';
+            document.getElementById('country-page').style.display = 'block';
+            document.getElementById('country-name').textContent = country + "与上海的历史联系";
+
+            clearMarkers();
+            
+            // 渲染侧边栏
+            renderSideImages(country);
+            
+            // 初始化动态文字
+            initDynamicTexts();
+        }
+
+        function clearMarkers(){
+            currentMarkers.forEach(marker=>{
+                if (marker.parentNode){
+                    marker.parentNode.removeChild(marker);
+                }
+            });
+            currentMarkers=[];
+        }
+        
+        // 渲染侧边栏图片
+        function renderSideImages(country) {
+            const data = countryData[country];
+            const mapContainer = document.getElementById('shanghai-detail-map');
+            
+            // 清除现有侧边栏
+            const leftSide = mapContainer.querySelector('.side-container.left');
+            const rightSide = mapContainer.querySelector('.side-container.right');
+            if (leftSide) leftSide.remove();
+            if (rightSide) rightSide.remove();
+            
+            // 创建左侧图片列表
+            const leftContainer = document.createElement('div');
+            leftContainer.className = 'side-container left';
+            const leftList = document.createElement('div');
+            leftList.className = 'image-list';
+            leftContainer.appendChild(leftList);
+            mapContainer.appendChild(leftContainer);
+            
+            // 添加左侧图片
+            data.leftImages.forEach(img => {
+                const item = document.createElement('div');
+                item.className = 'image-item';
+                item.innerHTML = `
+                    <img src="${img.src}" alt="${img.caption}">
+                    <div class="image-caption">${img.caption}</div>
+                `;
+                item.onclick = () => showLocationMarkers(img.caption);
+                leftList.appendChild(item);
+            });
+            
+            // 创建右侧图片列表
+            const rightContainer = document.createElement('div');
+            rightContainer.className = 'side-container right';
+            const rightList = document.createElement('div');
+            rightList.className = 'image-list';
+            rightContainer.appendChild(rightList);
+            mapContainer.appendChild(rightContainer);
+            
+            // 添加右侧图片
+            data.rightImages.forEach(img => {
+                const item = document.createElement('div');
+                item.className = 'image-item';
+                item.innerHTML = `
+                    <img src="${img.src}" alt="${img.caption}">
+                    <div class="image-caption">${img.caption}</div>
+                `;
+                item.onclick = () => showLocationMarkers(img.caption);
+                rightList.appendChild(item);
+            });
+        }
+        
+        // 显示地点标记
+        function showLocationMarkers(category) {
+            // 清除现有标记
+            currentMarkers.forEach(marker => marker.remove());
+            currentMarkers = [];
+            
+            // 获取当前国家数据
+            const country = countryData[currentCountry];
+            if (!country || !country.locations[category]) return;
+            
+            // 获取类别对应的图片URL
+            const imageSrc = categoryImages[category] || "default.png";
+            
+            // 添加新标记
+            country.locations[category].forEach(location => {
+                const marker = document.createElement('div');
+                marker.className = 'location-marker';
+                marker.style.top = location.top;
+                marker.style.left = location.left;
+                marker.innerHTML = `
+                    <img src="${imageSrc}" alt="${category}">
+                    <div class="marker-title">${location.title}</div>
+                `;
+                marker.onclick = () => openLetter(location.letter);
+                
+                document.getElementById('shanghai-detail-map').appendChild(marker);
+                currentMarkers.push(marker);
+            });
+        }
+        
+        // 打开信件
+        function openLetter(letter) {
+            document.getElementById('country-page').style.display = 'none';
+            document.getElementById('letter-page').style.display = 'block';
+            
+            // 设置信件内容
+            document.getElementById('letter-title').textContent = letter.title;
+            document.getElementById('letter-content').innerHTML = `<p>${letter.content}</p>`;
+            
+            // 设置邮票信息
+            const stamp = letter.stamp;
+            document.getElementById('stamp-icon').innerHTML = `<i class="fas ${stamp.icon}"></i>`;
+            document.getElementById('stamp-title').textContent = stamp.title;
+            document.getElementById('stamp-category').textContent = stamp.category;
+            document.getElementById('stamp-country').textContent = stamp.country;
+            document.getElementById('stamp-era').textContent = stamp.era;
+
+            // 显示信封动画
+            const envelope = document.getElementById('envelope');
+            const envelopeContainer = document.getElementById('envelope-container');
+            const letterContent = document.querySelector('.letter-content-container');
+            
+            // 重置状态
+            envelope.classList.remove('open');
+            letterContent.classList.remove('reveal');
+            
+            // 显示信封容器
+            envelopeContainer.style.display = 'flex';
+            
+            // 播放信封动画
+            setTimeout(() => {
+                envelope.classList.add('open');
+                
+                // 信封动画结束后，隐藏信封并显示信件内容
+                setTimeout(() => {
+                    envelopeContainer.style.display = 'none';
+                    letterContent.classList.add('reveal');
+                }, 1500);
+            }, 500);
+        }
+        
+        // 初始化动态文字效果
+        function initDynamicTexts() {
+            const container = document.getElementById('dynamic-circles');
+            container.innerHTML = '';
+            
+            // 定义圆环出现的位置
+            const positions = [
+                { x: 30, y: 30 },
+                { x: 70, y: 70 },
+                { x: 50, y: 20 },
+                { x: 80, y: 40 },
+                { x: 20, y: 60 }
+            ];
+            
+            // 添加动画样式
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInOut {
+                    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+                    10% { opacity: 1; }
+                    90% { opacity: 1; }
+                    100% { opacity: 0; transform: translate(-50%, -50%) scale(1.2); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // 创建初始文字
+            for (let i = 0; i < 5; i++) {
+                const pos = positions[Math.floor(Math.random() * positions.length)];
+                createText(container, pos.x, pos.y);
+            }
+            
+            // 定时添加新文字
+            setInterval(() => {
+                const pos = positions[Math.floor(Math.random() * positions.length)];
+                createText(container, pos.x, pos.y);
+            }, 1500);
+        }
+        
+        // 创建单个文字提示
+        function createText(container, x, y) {
+            const textElement = document.createElement('div');
+            textElement.className = 'dynamic-text';
+            textElement.style.left = `${x}%`;
+            textElement.style.top = `${y}%`;
+            textElement.style.position = 'absolute';
+            textElement.style.transform = 'translate(-50%, -50%)';
+            textElement.style.color = '#1a3a5f';
+            textElement.style.fontFamily = "'KaiTi', serif";
+            textElement.style.fontSize = '0.95rem';
+            textElement.style.textAlign = 'center';
+            textElement.style.zIndex = '3';
+            textElement.style.opacity = '0';
+            textElement.style.animation = 'fadeInOut 3s ease-in-out';
+            
+            // 随机上海历史短语
+            const phrases = [
+                "十样经，花样经",
+                "笃笃笃，卖糖粥",
+                "买百叶一块一角一",
+                "长脚鹭鸶敲洋钉",
+                "赖学精,白相精",
+                "啥叫虎,花狸斑",
+                "桃壳掼到门角落"
+            ];
+            const text = phrases[Math.floor(Math.random() * phrases.length)];
+            textElement.textContent = text;
+            container.appendChild(textElement);
+            
+            // 5秒后移除元素
+            setTimeout(() => {
+                textElement.remove();
+            }, 3000);
+        }
+        
+        // 返回主页面
+        function goBackToMain() {
+            document.getElementById('main-page').style.display = 'block';
+            document.getElementById('country-page').style.display = 'none';
+            document.getElementById('letter-page').style.display = 'none';
+        }
+        
+        // 返回国家页面
+        function goBackToCountry() {
+            document.getElementById('country-page').style.display = 'block';
+            document.getElementById('letter-page').style.display = 'none';
+        }
+        
+        // 页面加载时初始化
+        window.onload = function() {
+            // 模拟点击俄罗斯地图
+            document.getElementById('envelope-container').style.display = 'none';
+        };
+    </script>
+</body>
+</html>
